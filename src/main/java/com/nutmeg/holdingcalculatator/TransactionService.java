@@ -1,7 +1,6 @@
 package com.nutmeg.holdingcalculatator;
 
 import com.nutmeg.transactions.Holding;
-import com.nutmeg.transactions.ProcessedTransaction;
 import com.nutmeg.transactions.Transaction;
 
 import java.time.LocalDate;

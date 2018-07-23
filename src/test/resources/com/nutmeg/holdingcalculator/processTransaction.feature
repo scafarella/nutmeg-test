@@ -6,9 +6,16 @@ Feature: Nutmeg transaction holding
     Scenario Outline: Stock purchase
         Given a stock purchase transaction "<account>" "<date>" "<txnType>" "<units>" "<price>" "<asset>"
         And A hold date "<hold date>"
-        And a "<current balance amount>"
+        And the user has these holdings
+        |amount | asset|
+        |100    |  CASH|
+        |100    |  TEST|
         When I process the transaction
-        Then I should deduct the cash balance of the customer by the value of the transaction ("<units>" times "<price>")
-    Examples:
-        |   hold date   |   current balance amount  |   account   |   date        |   txnType |   units   |   price   |   asset   |
-        |   20180101    |   200                     |   NEAA0000  |   20170102    |   BOT     |       20  |   2.123   |   VUKE    |
+        Then I should deduct/increase the cash balance of the customer by the value of "<units>" times "<price>"
+
+        Examples:
+        |   hold date   |   account   |   date        |   txnType |   units   |   price   |   asset   |
+        |   20180101    |   NEAA0000  |   20170102    |   BOT     |       20  |   2.123   |   VUKE    |
+        |   20180101    |   NEAA0000  |   20170102    |   SLD     |       20  |   2.123   |   TEST    |
+        |   20180101    |   NEAA0000  |   20170102    |   DIV     |   0.2024  |       1   |   TEST    |
+        |   20180101    |   NEAA0000  |   20170102    |   DEP     |      200  |       1   |   CASH    |
