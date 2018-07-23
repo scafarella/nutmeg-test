@@ -80,7 +80,9 @@ public class TransactionServiceImpl implements TransactionService {
             upadatedAssetHolding.setAsset(transaction.getAsset());
             BigDecimal updatedAssetQuantityRounded = updatedAssetQuantity.setScale(SCALE, RoundingMode.HALF_UP);
             upadatedAssetHolding.setHoldings(updatedAssetQuantityRounded.doubleValue());
-            updatedHoldings.add(upadatedAssetHolding);
+            if(updatedAssetQuantityRounded.compareTo(BigDecimal.ZERO) > 0){
+                updatedHoldings.add(upadatedAssetHolding);
+            }
         }
 
         return updatedHoldings;
