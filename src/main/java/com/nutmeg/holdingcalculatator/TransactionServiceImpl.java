@@ -5,6 +5,7 @@ import com.nutmeg.transactions.Transaction;
 import com.nutmeg.transactions.TxnType;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -50,19 +51,19 @@ public class TransactionServiceImpl implements TransactionService {
         BigDecimal updatedCashAmount = BigDecimal.ZERO;
         BigDecimal updatedAssetQuantity = BigDecimal.ZERO;
         if(transaction.getTxnType().equals(TxnType.BOT)){
-            updatedCashAmount = currentCashAmount.subtract(transactionPrice.multiply(transactionUnits));
+            updatedCashAmount = currentCashAmount.subtract(transactionPrice.multiply(transactionUnits, MathContext.DECIMAL64));
             updatedAssetQuantity = currentAssetQuantity.add(transactionUnits);
         } else if(transaction.getTxnType().equals(TxnType.SLD)){
-            updatedCashAmount = currentCashAmount.add(transactionPrice.multiply(transactionUnits));
+            updatedCashAmount = currentCashAmount.add(transactionPrice.multiply(transactionUnits, MathContext.DECIMAL64));
             updatedAssetQuantity = currentAssetQuantity.subtract(transactionUnits);
         } else if(transaction.getTxnType().equals(TxnType.DIV)){
-            updatedCashAmount = currentCashAmount.add(transactionPrice.multiply(transactionUnits));
+            updatedCashAmount = currentCashAmount.add(transactionPrice.multiply(transactionUnits, MathContext.DECIMAL64));
             updatedAssetQuantity = currentAssetQuantity;
         } else if(transaction.getTxnType().equals(TxnType.DEP)){
-            updatedCashAmount = currentCashAmount.add(transactionPrice.multiply(transactionUnits));
+            updatedCashAmount = currentCashAmount.add(transactionPrice.multiply(transactionUnits, MathContext.DECIMAL64));
             updatedAssetQuantity = currentAssetQuantity;
         } else if(transaction.getTxnType().equals(TxnType.WDR)){
-            updatedCashAmount = currentCashAmount.subtract(transactionPrice.multiply(transactionUnits));
+            updatedCashAmount = currentCashAmount.subtract(transactionPrice.multiply(transactionUnits, MathContext.DECIMAL64));
             updatedAssetQuantity = currentAssetQuantity;
         }
 

@@ -26,9 +26,9 @@ public class ProcessTransactionStep {
     private TransactionService transactionService = new TransactionServiceImpl();
     private Transaction transaction;
     private LocalDate holdDate;
-    private Double currentAmount;
     private List<Holding> currentHolding;
     private List<Holding> processedTransaction;
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 
 
     @Given("^a stock purchase transaction \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\"$")
@@ -40,7 +40,7 @@ public class ProcessTransactionStep {
                                              String asset) throws Exception {
         transaction = new TransactionBuilder()
                 .setAccount(account)
-                .setDate(null)
+                .setDate(LocalDate.parse(date, formatter))
                 .setTxnType(TxnType.valueOf(txnType))
                 .setUnits(Double.valueOf(units))
                 .setPrice(Double.valueOf(price))
