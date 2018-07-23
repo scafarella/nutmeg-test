@@ -42,4 +42,30 @@ public class Transaction {
     public String getAsset() {
         return asset;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Transaction that = (Transaction) o;
+
+        if (account != null ? !account.equals(that.account) : that.account != null) return false;
+        if (date != null ? !date.equals(that.date) : that.date != null) return false;
+        if (txnType != that.txnType) return false;
+        if (units != null ? !units.equals(that.units) : that.units != null) return false;
+        if (price != null ? !price.equals(that.price) : that.price != null) return false;
+        return asset != null ? asset.equals(that.asset) : that.asset == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = account != null ? account.hashCode() : 0;
+        result = 31 * result + (date != null ? date.hashCode() : 0);
+        result = 31 * result + (txnType != null ? txnType.hashCode() : 0);
+        result = 31 * result + (units != null ? units.hashCode() : 0);
+        result = 31 * result + (price != null ? price.hashCode() : 0);
+        result = 31 * result + (asset != null ? asset.hashCode() : 0);
+        return result;
+    }
 }

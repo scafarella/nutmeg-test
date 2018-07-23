@@ -28,15 +28,15 @@ public class ProcessTransactionStep {
     public void a_stock_purchase_transaction(String account,
                                              String date,
                                              String txnType,
-                                             Double units,
-                                             Double price,
+                                             String units,
+                                             String price,
                                              String asset) throws Exception {
         transaction = new TransactionBuilder()
                 .setAccount(account)
                 .setDate(null)
                 .setTxnType(TxnType.valueOf(txnType))
-                .setUnits(units)
-                .setPrice(price)
+                .setUnits(Double.valueOf(units))
+                .setPrice(Double.valueOf(price))
                 .setAsset(asset)
                 .createTransaction();
     }
@@ -48,18 +48,19 @@ public class ProcessTransactionStep {
     }
 
     @Given("^a \"([^\"]*)\"$")
-    public void a(Double currentAmount) throws Exception {
-        this.currentAmount = currentAmount;
+    public void a(String currentAmount) throws Exception {
+        this.currentAmount = Double.valueOf(currentAmount);
     }
 
     @When("^I process the transaction$")
     public void i_process_the_transaction() throws Exception {
-        processedTransaction = transactionService.processTransaction(transaction, holdDate, currentAmount );
+//        processedTransaction = transactionService.processTransaction(transaction, holdDate, null );
+        throw new PendingException();
     }
 
     @Then("^I should deduct the cash balance of the customer by the value of the transaction \\(\"([^\"]*)\" times \"([^\"]*)\"\\)$")
-    public void i_should_deduct_the_cash_balance_of_the_customer_by_the_value_of_the_transaction_times(Double units, Double price) throws Exception {
-        Assert.assertEquals(units*price, processedTransaction.getAmount(), 0 );
+    public void i_should_deduct_the_cash_balance_of_the_customer_by_the_value_of_the_transaction_times(String units, String price) throws Exception {
+        Assert.assertEquals(10, processedTransaction.getAmount(), 0 );
         throw new PendingException();
     }
 }
